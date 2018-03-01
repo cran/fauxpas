@@ -3,82 +3,82 @@
 \docType{data}
 \name{Error-Classes}
 \alias{Error-Classes}
-\alias{HTTPAccepted}
-\alias{HTTPAlreadyReported}
-\alias{HTTPAuthenticationTimeout}
-\alias{HTTPBadGateway}
-\alias{HTTPBadRequest}
-\alias{HTTPBandwidthLimitExceeded}
-\alias{HTTPBlockedByWindowsParentalControls}
-\alias{HTTPCertError}
-\alias{HTTPClientClosedRequest}
-\alias{HTTPConflict}
 \alias{HTTPContinue}
-\alias{HTTPCreated}
-\alias{HTTPExpectationFailed}
-\alias{HTTPFailedDependency}
-\alias{HTTPForbidden}
-\alias{HTTPFound}
-\alias{HTTPGatewayTimeout}
-\alias{HTTPGone}
-\alias{HTTPHTTPToHTTPS}
-\alias{HTTPHTTPVersionNotSupported}
-\alias{HTTPImUsed}
-\alias{HTTPInsufficientStorage}
-\alias{HTTPInternalServerError}
-\alias{HTTPLengthRequired}
-\alias{HTTPLocked}
-\alias{HTTPLoginTimeout}
-\alias{HTTPLoopDetected}
-\alias{HTTPMethodFailure}
-\alias{HTTPMethodNotAllowed}
-\alias{HTTPMovedPermanently}
-\alias{HTTPMultiStatus}
-\alias{HTTPMultipleChoices}
-\alias{HTTPNetworkAuthenticationRequired}
-\alias{HTTPNetworkConnectTimeoutError}
-\alias{HTTPNetworkReadTimeoutError}
-\alias{HTTPNoCert}
-\alias{HTTPNoContent}
-\alias{HTTPNoResponse}
-\alias{HTTPNonAuthoritativeInformation}
-\alias{HTTPNotAcceptable}
-\alias{HTTPNotExtended}
-\alias{HTTPNotFound}
-\alias{HTTPNotImplemented}
-\alias{HTTPNotModified}
-\alias{HTTPOK}
-\alias{HTTPPartialContent}
-\alias{HTTPPaymentRequired}
-\alias{HTTPPermanentRedirect}
-\alias{HTTPPreconditionFailed}
-\alias{HTTPPreconditionRequired}
-\alias{HTTPProcessing}
-\alias{HTTPProxyAuthenticationRequired}
-\alias{HTTPRequestEntityTooLarge}
-\alias{HTTPRequestHeaderFieldsTooLarge}
-\alias{HTTPRequestHeaderTooLarge}
-\alias{HTTPRequestRangeNotSatisfiable}
-\alias{HTTPRequestTimeout}
-\alias{HTTPRequestURITooLong}
-\alias{HTTPResetContent}
-\alias{HTTPRetryWith}
-\alias{HTTPSeeOther}
-\alias{HTTPServiceUnavailable}
 \alias{HTTPSwitchProtocol}
-\alias{HTTPSwitchProxy}
-\alias{HTTPTeaPot}
-\alias{HTTPTemporaryRedirect}
-\alias{HTTPTokenExpiredInvalid}
-\alias{HTTPTooManyRequests}
-\alias{HTTPUnauthorized}
-\alias{HTTPUnavailableForLegalReasons}
-\alias{HTTPUnorderedCollection}
-\alias{HTTPUnprocessableEntity}
-\alias{HTTPUnsupportedMediaType}
-\alias{HTTPUpgradeRequired}
+\alias{HTTPProcessing}
+\alias{HTTPOK}
+\alias{HTTPCreated}
+\alias{HTTPAccepted}
+\alias{HTTPNonAuthoritativeInformation}
+\alias{HTTPNoContent}
+\alias{HTTPResetContent}
+\alias{HTTPPartialContent}
+\alias{HTTPMultiStatus}
+\alias{HTTPAlreadyReported}
+\alias{HTTPImUsed}
+\alias{HTTPMultipleChoices}
+\alias{HTTPMovedPermanently}
+\alias{HTTPFound}
+\alias{HTTPSeeOther}
+\alias{HTTPNotModified}
 \alias{HTTPUseProxy}
+\alias{HTTPSwitchProxy}
+\alias{HTTPTemporaryRedirect}
+\alias{HTTPPermanentRedirect}
+\alias{HTTPBadRequest}
+\alias{HTTPUnauthorized}
+\alias{HTTPPaymentRequired}
+\alias{HTTPForbidden}
+\alias{HTTPNotFound}
+\alias{HTTPMethodNotAllowed}
+\alias{HTTPNotAcceptable}
+\alias{HTTPProxyAuthenticationRequired}
+\alias{HTTPRequestTimeout}
+\alias{HTTPConflict}
+\alias{HTTPGone}
+\alias{HTTPLengthRequired}
+\alias{HTTPPreconditionFailed}
+\alias{HTTPRequestEntityTooLarge}
+\alias{HTTPRequestURITooLong}
+\alias{HTTPUnsupportedMediaType}
+\alias{HTTPRequestRangeNotSatisfiable}
+\alias{HTTPExpectationFailed}
+\alias{HTTPTeaPot}
+\alias{HTTPAuthenticationTimeout}
+\alias{HTTPMethodFailure}
+\alias{HTTPUnprocessableEntity}
+\alias{HTTPLocked}
+\alias{HTTPFailedDependency}
+\alias{HTTPUnorderedCollection}
+\alias{HTTPUpgradeRequired}
+\alias{HTTPPreconditionRequired}
+\alias{HTTPTooManyRequests}
+\alias{HTTPRequestHeaderFieldsTooLarge}
+\alias{HTTPLoginTimeout}
+\alias{HTTPNoResponse}
+\alias{HTTPRetryWith}
+\alias{HTTPBlockedByWindowsParentalControls}
+\alias{HTTPUnavailableForLegalReasons}
+\alias{HTTPRequestHeaderTooLarge}
+\alias{HTTPCertError}
+\alias{HTTPNoCert}
+\alias{HTTPHTTPToHTTPS}
+\alias{HTTPTokenExpiredInvalid}
+\alias{HTTPClientClosedRequest}
+\alias{HTTPInternalServerError}
+\alias{HTTPNotImplemented}
+\alias{HTTPBadGateway}
+\alias{HTTPServiceUnavailable}
+\alias{HTTPGatewayTimeout}
+\alias{HTTPHTTPVersionNotSupported}
 \alias{HTTPVariantAlsoNegotiates}
+\alias{HTTPInsufficientStorage}
+\alias{HTTPLoopDetected}
+\alias{HTTPBandwidthLimitExceeded}
+\alias{HTTPNotExtended}
+\alias{HTTPNetworkAuthenticationRequired}
+\alias{HTTPNetworkReadTimeoutError}
+\alias{HTTPNetworkConnectTimeoutError}
 \title{Individual error classes}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
@@ -246,11 +246,23 @@ You can include that message in your condition by using \code{do_verbose}
 (see below)
 
 \strong{Methods}
+
+In addition to the methods documented in \code{\link{Error}}, these methods
+also have:
 \itemize{
-  \item \code{do_verbose(response)}
-  \code{response} is any response from \pkg{crul}, \pkg{curl}, or \pkg{httr}
+  \item \code{do_verbose(response, template)} {
+
+  Execute condition, whether it be message, warning, or error.
+
+  \itemize{
+   \item response: is any response from \pkg{crul}, \pkg{curl}, or \pkg{httr}
   Execute condition, whether it be message, warning, error, or your
-  own custom function.
+  own custom function. This method uses \code{message_template_verbose},
+  and uses it's default value.
+   \item template: a template to use for the verbose message, see \code{\link{Error}}
+  for details
+  }
+  }
 }
 }
 \examples{
@@ -259,6 +271,7 @@ if (requireNamespace("crul")) {
  library("crul")
  res <- HttpClient$new("https://httpbin.org/status/414")$get()
  x <- HTTPRequestURITooLong$new()
+ x
  \dontrun{
  x$do(res)
  x$do_verbose(res)
@@ -278,9 +291,10 @@ if (requireNamespace("crul")) {
  }
 
  # with message template
- x <- HTTPRequestURITooLong$new(
-   message_template = "{{reason}} ............ {{status}}"
- )
+ (x <- HTTPRequestURITooLong$new(
+   message_template = "{{reason}} ............ {{status}}",
+   message_template_verbose = "{{reason}} .>.>.>.>.>.> {{status}}\\n {{message}}"
+ ))
  \dontrun{
  x$do(res)
  x$do_verbose(res)
@@ -292,4 +306,3 @@ if (requireNamespace("crul")) {
 \code{\link[fauxpas]{Error}}, \code{\link[fauxpas]{http}}
 }
 \keyword{datasets}
-

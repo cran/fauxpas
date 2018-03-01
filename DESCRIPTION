@@ -7,19 +7,25 @@ Description: HTTP error helpers. Methods included for general purpose HTTP
     Includes ability to use custom whisker template to have any configuration
     of status code, short description, and verbose message. Currently 
     supports integration with 'crul', 'curl', and 'httr'.
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"),
-    email = "myrmecocystus@gmail.com")
+    email = "myrmecocystus@gmail.com", 
+    comment = c(ORCID = "0000-0003-1444-9135"))
 License: MIT + file LICENSE
 URL: https://github.com/ropenscilabs/fauxpas
 BugReports: https://github.com/ropenscilabs/fauxpas/issues
+VignetteBuilder: knitr
 Imports: R6 (>= 2.1.2), httpcode (>= 0.2.0), whisker
-Suggests: crul (>= 0.1.0), curl (>= 2.2), httr (>= 1.2.0), testthat,
-        covr
-RoxygenNote: 5.0.1
+Suggests: crul (>= 0.5.0), curl (>= 2.2), httr (>= 1.2.0), testthat,
+        knitr, rmarkdown
+RoxygenNote: 6.0.1
+X-schema.org-applicationCategory: Web
+X-schema.org-keywords: http, https, API, web-services, curl, errors,
+        error,
+X-schema.org-isPartOf: https://ropensci.org
 NeedsCompilation: no
-Packaged: 2016-11-16 01:26:47 UTC; sacmac
-Author: Scott Chamberlain [aut, cre]
+Packaged: 2018-03-01 03:18:09 UTC; sckott
+Author: Scott Chamberlain [aut, cre] (<https://orcid.org/0000-0003-1444-9135>)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>
 Repository: CRAN
-Date/Publication: 2016-11-16 08:16:30
+Date/Publication: 2018-03-01 12:54:53 UTC
