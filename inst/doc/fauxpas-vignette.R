@@ -1,4 +1,4 @@
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
@@ -6,27 +6,27 @@ knitr::opts_chunk$set(
   message = FALSE
 )
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  install.packages("fauxpas")
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # install.packages("remotes")
-#  remotes::install_github("ropenscilabs/fauxpas")
+#  remotes::install_github("ropensci/fauxpas")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library("fauxpas")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 (x <- find_error_class(418))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 x$new()
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  find_error_class(999)
 #  #> Error in find_error_class(999) : no method found for 999
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  library("crul")
 #  cli <- HttpClient$new("https://httpbin.org/status/414")
 #  res <- cli$get()
@@ -35,7 +35,7 @@ x$new()
 #  http414(res)
 #  #> Error: Request-URI Too Long (HTTP 414).
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  x <- HTTPRequestURITooLong$new()
 #  x$do_verbose(res)
 #  #> Error: Request-URI Too Long (HTTP 414).
@@ -48,7 +48,7 @@ x$new()
 #  #>    holes present in some servers using fixed-length buffers for reading or
 #  #>    manipulating the Request-URI.
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  library("curl")
 #  h <- curl::new_handle()
 #  curl::handle_setopt(h)
@@ -58,7 +58,7 @@ x$new()
 #  http404(resp)
 #  #> Error: Not Found (HTTP 404).
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  x <- HTTPNotFound$new()
 #  x$do_verbose(resp)
 #  #> Error:  Not Found (HTTP 404).
@@ -70,13 +70,13 @@ x$new()
 #  #> reveal exactly why the request has been refused, or when no other response is
 #  #> applicable.
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  library("httr")
 #  res <- GET("https://httpbin.org/status/405")
 #  http405(res)
 #  #> Error: Method Not Allowed (HTTP 405).
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  x <- HTTPMethodNotAllowed$new()
 #  x$do_verbose(res)
 #  #> Error: Method Not Allowed (HTTP 405).

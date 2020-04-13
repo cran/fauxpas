@@ -9,6 +9,8 @@
 #' use in template like \code{\{\{reason\}\}}, \code{\{\{status\}\}}, and
 #' \code{\{\{message\}\}}. Note that this is ignored here, but is
 #' used in the \code{HTTP*} methods (e.g. \code{HTTPBadRequest})
+#' @param muffle (logical) whether to not respond when status codes
+#' in 1xx-3xx series. Default: \code{FALSE}
 #'
 #' @details
 #' \strong{Methods}
@@ -108,6 +110,12 @@
 #'  )
 #'  yy$message_template
 #'  \dontrun{yy$do(res)}
+#' 
+#'  # muffle responses
+#'  (x <- Error$new(muffle = TRUE))
+#'  res <- crul::HttpClient$new("https://httpbin.org/status/226")$get()
+#'  z <- x$do(res)
+#'  z
 #' }
 Error <- R6::R6Class(
   "Error",
@@ -118,13 +126,15 @@ Error <- R6::R6Class(
     call. = FALSE,
     message_template = NULL,
     message_template_verbose = NULL,
+    muffle = FALSE,
 
     initialize = function(behavior = "stop", call. = FALSE, message_template,
-                          message_template_verbose) {
+                          message_template_verbose, muffle = FALSE) {
 
       stopifnot(inherits(behavior, "character"))
       if (!behavior %in% c('stop', 'warning', 'message')) {
-        stop("'behavior' must be one of stop, warning, or message", call. = FALSE)
+        stop("'behavior' must be one of stop, warning, or message", 
+          call. = FALSE)
       }
       self$behavior <- behavior
       private$behavior_type <- switch(
@@ -135,7 +145,8 @@ Error <- R6::R6Class(
       if (!missing(message_template)) {
         if (!is.null(message_template)) {
           if (!inherits(message_template, "character")) {
-            stop("'message_template' must be of class character", call. = FALSE)
+            stop("'message_template' must be of class character", 
+              call. = FALSE)
           }
           self$message_template <- message_template
         }
@@ -147,7 +158,8 @@ Error <- R6::R6Class(
       if (!missing(message_template_verbose)) {
         if (!is.null(message_template_verbose)) {
           if (!inherits(message_template_verbose, "character")) {
-            stop("'message_template_verbose' must be of class character", call. = FALSE)
+            stop("'message_template_verbose' must be of class character", 
+              call. = FALSE)
           }
           self$message_template_verbose <- message_template_verbose
         }
@@ -155,6 +167,8 @@ Error <- R6::R6Class(
       if (missing(message_template_verbose)) {
         self$message_template_verbose <- "{{reason}} (HTTP {{status}}).\n - {{message}}"
       }
+
+      self$muffle <- muffle
     },
 
     print = function(...) {
@@ -169,6 +183,8 @@ Error <- R6::R6Class(
 
     do = function(response, mssg = "", template = self$message_template) {
       call <- if (self$call.) sys.call(-1) else NULL
+      stat <- private$fetch_status(response)
+      if (self$muffle) if (stat < 300) return(invisible(response))
       eval(parse(text = self$behavior))(
         private$make_condition(response, private$behavior_type, call, mssg, template)
       )
@@ -177,7 +193,8 @@ Error <- R6::R6Class(
     set_behavior = function(behavior) {
       stopifnot(inherits(behavior, "character"))
       if (!behavior %in% c('stop', 'warning', 'message')) {
-        stop("'behavior' must be one of stop, warning, or message", call. = FALSE)
+        stop("'behavior' must be one of stop, warning, or message", 
+          call. = FALSE)
       }
       self$behavior <- behavior
       # and set behavior_type
@@ -213,3 +230,14 @@ Error <- R6::R6Class(
 
   )
 )
+
+fetch_status <- function(x) {
+  switch(
+    class(x)[1],
+    response = x$status_code, # httr
+    Response = x$status_code, # webmockr
+    VcrResponse = x$stats$status_code, # vcr
+    HttpResponse = x$status_code, # crul
+    list = x$status_code # curl
+  )
+}

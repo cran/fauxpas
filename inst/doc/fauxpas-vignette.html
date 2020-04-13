@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Scott Chamberlain" />
 
-<meta name="date" content="2018-02-28" />
+<meta name="date" content="2020-04-13" />
 
 <title>Introduction to the fauxpas package</title>
 
@@ -81,8 +81,6 @@ overflow: auto;
 margin-left: 2%;
 position: fixed;
 border: 1px solid #ccc;
-webkit-border-radius: 6px;
-moz-border-radius: 6px;
 border-radius: 6px;
 }
 
@@ -110,9 +108,14 @@ font-size: 12px;
 .tocify-subheader .tocify-subheader {
 text-indent: 30px;
 }
-
 .tocify-subheader .tocify-subheader .tocify-subheader {
 text-indent: 40px;
+}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+text-indent: 50px;
+}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+text-indent: 60px;
 }
 
 .tocify .tocify-item > a, .tocify .nav-list .nav-header {
@@ -516,13 +519,13 @@ float: none;
 
           item.append($("<a/>", {
 
-            "text": self.text()
+            "html": self.html()
 
           }));
 
         } else {
 
-          item.text(self.text());
+          item.html(self.html());
 
         }
 
@@ -1339,9 +1342,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -1355,58 +1356,83 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
 
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -1420,6 +1446,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1455,8 +1487,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -1465,6 +1495,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -1483,8 +1523,8 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Introduction to the fauxpas package</h1>
-<h4 class="author"><em>Scott Chamberlain</em></h4>
-<h4 class="date"><em>2018-02-28</em></h4>
+<h4 class="author">Scott Chamberlain</h4>
+<h4 class="date">2020-04-13</h4>
 
 </div>
 
@@ -1503,23 +1543,23 @@ div.tocify {
 </ul>
 <p>There are <strong>a lot</strong> of functions in this package. Don’t be scared away by that. There are a few major sets of functions that are easy to understand and use:</p>
 <ul>
-<li>There’s a function <code>http()</code> that is a general purpose function that handles any HTTP status codes. There’s also a set of functions that follow the pattern <code>http*()</code> where <code>*</code> is a HTTP status code (e.g. <code>http201()</code>). You can use the general purpose function <code>http()</code> or the one specific to the status code you are interested in.</li>
-<li>There’s a lower level <code>R6</code> class <code>Error</code> that is wrapped by <code>http()</code> that like <code>http()</code> is a general purpose function that handles any HTTP status codes. There’s also a set of <code>R6</code> classes that follow the pattern <code>HTTP*()</code> where <code>*</code> is a HTTP name (e.g. <code>HTTPGatewayTimeout</code>). You can use the general purpose class <code>Error()</code> or the one specific to the status you are interested in.</li>
+<li>There’s a function <code>http()</code> that is a general purpose function that handles any HTTP status codes. There’s also a set of functions that follow the pattern <code>http*()</code> where <code>*</code> is a HTTP status code (e.g. <code>http201()</code>). You can use the general purpose function <code>http()</code> or the one specific to the status code you are interested in.</li>
+<li>There’s a lower level <code>R6</code> class <code>Error</code> that is wrapped by <code>http()</code> that like <code>http()</code> is a general purpose function that handles any HTTP status codes. There’s also a set of <code>R6</code> classes that follow the pattern <code>HTTP*()</code> where <code>*</code> is a HTTP name (e.g. <code>HTTPGatewayTimeout</code>). You can use the general purpose class <code>Error()</code> or the one specific to the status you are interested in.</li>
 </ul>
 <p><code>fauxpas</code> uses <a href="https://github.com/sckott/httpcode">httpcode</a> under the hood - which holds all the info about HTTP status codes.</p>
-<section id="install" class="level2">
+<div id="install" class="section level2">
 <h2>Install</h2>
 <p>CRAN version</p>
 <pre class="r"><code>install.packages(&quot;fauxpas&quot;)</code></pre>
 <p>Dev version</p>
 <pre class="r"><code># install.packages(&quot;remotes&quot;)
-remotes::install_github(&quot;ropenscilabs/fauxpas&quot;)</code></pre>
+remotes::install_github(&quot;ropensci/fauxpas&quot;)</code></pre>
 <pre class="r"><code>library(&quot;fauxpas&quot;)</code></pre>
-</section>
-<section id="find-classes-for-a-http-status-code" class="level2">
+</div>
+<div id="find-classes-for-a-http-status-code" class="section level2">
 <h2>Find classes for a HTTP status code</h2>
 <p>When using <code>fauxpas</code> in another package I personally like to use the <code>HTTP*</code> classes.</p>
-<p>Since these are named with their HTTP reason (e.g. <code>HTTPGatewayTimeout</code>), it’s not super straightforward to find them with a status code, which is what one always has as a response from a server. A good way to find these is with a new function <code>find_error_class()</code>. Just pass the function a HTTP status code and it will find the matching class.</p>
+<p>Since these are named with their HTTP reason (e.g. <code>HTTPGatewayTimeout</code>), it’s not super straightforward to find them with a status code, which is what one always has as a response from a server. A good way to find these is with a new function <code>find_error_class()</code>. Just pass the function a HTTP status code and it will find the matching class.</p>
 <pre class="r"><code>(x &lt;- find_error_class(418))
 #&gt; &lt;HTTPTeaPot&gt; object generator
 #&gt;   Inherits from: &lt;Error&gt;
@@ -1529,7 +1569,7 @@ remotes::install_github(&quot;ropenscilabs/fauxpas&quot;)</code></pre>
 #&gt;     mssg: 
 #&gt;     do_verbose: function (response, template = self$message_template_verbose) 
 #&gt;     clone: function (deep = FALSE) 
-#&gt;   Parent env: &lt;environment: 0x7fb961900200&gt;
+#&gt;   Parent env: &lt;environment: 0x7fd8ae43b300&gt;
 #&gt;   Locked objects: TRUE
 #&gt;   Locked class: FALSE
 #&gt;   Portable: TRUE</code></pre>
@@ -1542,10 +1582,10 @@ remotes::install_github(&quot;ropenscilabs/fauxpas&quot;)</code></pre>
 <p>If you pass it a status code it doesn’t know about it errors</p>
 <pre class="r"><code>find_error_class(999)
 #&gt; Error in find_error_class(999) : no method found for 999</code></pre>
-</section>
-<section id="use-fauxpas-with-http-clients" class="level2">
+</div>
+<div id="use-fauxpas-with-http-clients" class="section level2">
 <h2>Use fauxpas with HTTP clients</h2>
-<section id="crul" class="level3">
+<div id="crul" class="section level3">
 <h3>crul</h3>
 <pre class="r"><code>library(&quot;crul&quot;)
 cli &lt;- HttpClient$new(&quot;https://httpbin.org/status/414&quot;)
@@ -1565,8 +1605,8 @@ x$do_verbose(res)
 #&gt;    or when the server is under attack by a client attempting to exploit security
 #&gt;    holes present in some servers using fixed-length buffers for reading or
 #&gt;    manipulating the Request-URI.</code></pre>
-</section>
-<section id="curl" class="level3">
+</div>
+<div id="curl" class="section level3">
 <h3>curl</h3>
 <pre class="r"><code>library(&quot;curl&quot;)
 h &lt;- curl::new_handle()
@@ -1586,8 +1626,8 @@ x$do_verbose(resp)
 #&gt; address. #&gt; This status code is commonly used when the server does not wish to
 #&gt; reveal exactly why the request has been refused, or when no other response is
 #&gt; applicable.</code></pre>
-</section>
-<section id="httr" class="level3">
+</div>
+<div id="httr" class="section level3">
 <h3>httr</h3>
 <pre class="r"><code>library(&quot;httr&quot;)
 res &lt;- GET(&quot;https://httpbin.org/status/405&quot;)
@@ -1599,8 +1639,8 @@ x$do_verbose(res)
 #&gt;  - The method specified in the Request-Line is not allowed for the resource
 #&gt; identified by the Request-URI. The response MUST include an Allow header
 #&gt; containing a list of valid methods for the requested resource.</code></pre>
-</section>
-</section>
+</div>
+</div>
 
 
 
@@ -1620,6 +1660,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

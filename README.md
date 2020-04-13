@@ -3,7 +3,8 @@ fauxpas
 
 
 
-[![Build Status](https://travis-ci.org/ropenscilabs/fauxpas.svg)](https://travis-ci.org/ropenscilabs/fauxpas)
+[![Build Status](https://travis-ci.org/ropensci/fauxpas.svg)](https://travis-ci.org/ropensci/fauxpas)
+[![cran checks](https://cranchecks.info/badges/worst/fauxpas)](https://cranchecks.info/pkgs/fauxpas)
 [![cran version](http://www.r-pkg.org/badges/version/fauxpas)](https://cran.r-project.org/package=fauxpas)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/fauxpas)](https://github.com/metacran/cranlogs.app)
 
@@ -38,7 +39,7 @@ Dev version
 
 
 ```r
-devtools::install_github("ropenscilabs/fauxpas")
+remotes::install_github("ropensci/fauxpas")
 ```
 
 
@@ -124,10 +125,12 @@ x$do_verbose(res)
 
 ## Meta
 
-* Please [report any issues or bugs](https://github.com/ropenscilabs/fauxpas/issues)
+* Please [report any issues or bugs](https://github.com/ropensci/fauxpas/issues)
 * License: MIT
 * Get citation information for `fauxpas` in R doing `citation(package = 'fauxpas')`
-* Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+* Please note that this project is released with a [Contributor Code of Conduct][coc].
 By participating in this project you agree to abide by its terms.
 
 [![rofooter](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
+
+[coc]: https://github.com/ropensci/fauxpas/blob/master/CODE_OF_CONDUCT.md
