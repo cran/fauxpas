@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  # install.packages("remotes")
-#  remotes::install_github("ropensci/fauxpas")
+#  remotes::install_github("sckott/fauxpas")
 
 ## -----------------------------------------------------------------------------
 library("fauxpas")

@@ -3,10 +3,10 @@ fauxpas
 
 
 
-[![Build Status](https://travis-ci.org/ropensci/fauxpas.svg)](https://travis-ci.org/ropensci/fauxpas)
-[![cran checks](https://cranchecks.info/badges/worst/fauxpas)](https://cranchecks.info/pkgs/fauxpas)
+[![R-check](https://github.com/sckott/fauxpas/actions/workflows/R-check.yml/badge.svg?branch=main)](https://github.com/sckott/fauxpas/actions/workflows/R-check.yml)
+[![cran checks](https://badges.cranchecks.info/worst/fauxpas.svg)](https://github.com/sckott/fauxpas)
 [![cran version](http://www.r-pkg.org/badges/version/fauxpas)](https://cran.r-project.org/package=fauxpas)
-[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/fauxpas)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/fauxpas)](https://github.com/r-hub/cranlogs.app)
 
 `fauxpas` does http errors
 
@@ -24,7 +24,7 @@ Info Links:
 * HTTP on wikipedia: <https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol>
 * HTTP2 on wikipedia: <https://en.wikipedia.org/wiki/HTTP/2>
 * HTTP/1.1: <https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html>
-* HTTP/2: <https://tools.ietf.org/html/rfc7540>
+* HTTP/2: <https://datatracker.ietf.org/doc/html/rfc7540>
 
 ## Install
 
@@ -39,7 +39,7 @@ Dev version
 
 
 ```r
-remotes::install_github("ropensci/fauxpas")
+remotes::install_github("sckott/fauxpas")
 ```
 
 
@@ -125,12 +125,6 @@ x$do_verbose(res)
 
 ## Meta
 
-* Please [report any issues or bugs](https://github.com/ropensci/fauxpas/issues)
+* Please [report any issues or bugs](https://github.com/sckott/fauxpas/issues)
 * License: MIT
 * Get citation information for `fauxpas` in R doing `citation(package = 'fauxpas')`
-* Please note that this project is released with a [Contributor Code of Conduct][coc].
-By participating in this project you agree to abide by its terms.
-
-[![rofooter](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
-
-[coc]: https://github.com/ropensci/fauxpas/blob/master/CODE_OF_CONDUCT.md
