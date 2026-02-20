@@ -1,3 +1,13 @@
+fauxpas 0.6.0
+=============
+
+### MINOR IMPROVEMENTS
+
+* added some new error classes: 421, 520, 521, 522, 523, 524, 525, 526, 527 (#15)
+* fixed lost braces note, thanks @adamhsparks (#16)
+* added `_PACKAGE` for package level documentation (#14)
+
+
 fauxpas 0.5.2
 =============
 

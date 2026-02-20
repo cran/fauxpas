@@ -3,41 +3,35 @@
 #' @export
 #' @template params
 #' @param call.	(logical) indicating if the call should become part
-#' of the error message. Default: \code{FALSE}
+#' of the error message. Default: `FALSE`
 #' @param message_template_verbose A verbose message template. optional.
 #' use whisker templating. names to use are: reason, status, message.
-#' use in template like \code{\{\{reason\}\}}, \code{\{\{status\}\}}, and
-#' \code{\{\{message\}\}}. Note that this is ignored here, but is
-#' used in the \code{HTTP*} methods (e.g. \code{HTTPBadRequest})
+#' use in template like `{{reason}}`, `{{status}}`, and
+#' `{{message}}`. Note that this is ignored here, but is
+#' used in the `HTTP*` methods (e.g. `HTTPBadRequest`)
 #' @param muffle (logical) whether to not respond when status codes
-#' in 1xx-3xx series. Default: \code{FALSE}
+#' in 1xx-3xx series. Default: `FALSE`
 #'
-#' @details
-#' \strong{Methods}
-#' \itemize{
-#'   \item \code{do(response, mssg)} {
+#' @section Methods:
+#' * `do(response, mssg, template)`:
 #'
 #'   Execute condition, whether it be message, warning, or error.
 #'
-#'   \itemize{
-#'    \item response: is any response from \pkg{crul}, \pkg{curl}, or \pkg{httr}
+#'   * response: is any response from \pkg{crul}, \pkg{curl}, or \pkg{httr}
 #'   Execute condition, whether it be message, warning, error, or your
-#'   own custom function. This method uses \code{message_template_verbose},
+#'   own custom function. This method uses `message_template_verbose`,
 #'   and uses it's default value.
-#'    \item mssg: character string message to include in call. ignored if
-#'   template does not have a \code{message} entry
-#'    }
-#'   }
+#'   * mssg: character string message to include in call. ignored if
+#'   template does not have a `message` entry
+#'   * template: set a template; by default uses `message_template`
 #'
-#'   \item \code{set_behavior(behavior)}
+#' * `set_behavior(behavior)`:
 #'
-#'   Set behavior, same as setting behavior on initializing with \code{$new()}
-#' }
+#'   * Set behavior, same as setting behavior on initializing with `$new()`
 #'
 #' @format NULL
-#' @usage NULL
 #'
-#' @seealso \code{\link[fauxpas]{http}}, \code{\link[fauxpas]{Error-Classes}}
+#' @seealso [fauxpas::http], [fauxpas::Error-Classes]
 #'
 #' @examples
 #' Error$new()
@@ -56,25 +50,36 @@ Error <- R6::R6Class(
     message_template_verbose = NULL,
     muffle = FALSE,
 
-    initialize = function(behavior = "stop", call. = FALSE, message_template,
-                          message_template_verbose, muffle = FALSE) {
-
+    initialize = function(
+      behavior = "stop",
+      call. = FALSE,
+      message_template,
+      message_template_verbose,
+      muffle = FALSE
+    ) {
       stopifnot(inherits(behavior, "character"))
       if (!behavior %in% c('stop', 'warning', 'message')) {
-        stop("'behavior' must be one of stop, warning, or message", 
-          call. = FALSE)
+        stop(
+          "'behavior' must be one of stop, warning, or message",
+          call. = FALSE
+        )
       }
       self$behavior <- behavior
       private$behavior_type <- switch(
-        self$behavior, stop = "error", warning = "warning", message = "message")
+        self$behavior,
+        stop = "error",
+        warning = "warning",
+        message = "message"
+      )
 
-      if (!missing(call.)) self$call. <- call.
+      if (!missing(call.)) {
+        self$call. <- call.
+      }
 
       if (!missing(message_template)) {
         if (!is.null(message_template)) {
           if (!inherits(message_template, "character")) {
-            stop("'message_template' must be of class character", 
-              call. = FALSE)
+            stop("'message_template' must be of class character", call. = FALSE)
           }
           self$message_template <- message_template
         }
@@ -86,8 +91,10 @@ Error <- R6::R6Class(
       if (!missing(message_template_verbose)) {
         if (!is.null(message_template_verbose)) {
           if (!inherits(message_template_verbose, "character")) {
-            stop("'message_template_verbose' must be of class character", 
-              call. = FALSE)
+            stop(
+              "'message_template_verbose' must be of class character",
+              call. = FALSE
+            )
           }
           self$message_template_verbose <- message_template_verbose
         }
@@ -102,32 +109,56 @@ Error <- R6::R6Class(
     print = function(...) {
       cat(sprintf("<%s>", self$name), sep = "\n")
       cat(paste0("  behavior: ", self$behavior), sep = "\n")
-      cat(paste0("  message_template: ",
-                 gsub("\n", "\\\\n", self$message_template)), sep = "\n")
-      cat(paste0("  message_template_verbose: ",
-                 gsub("\n", "\\\\n", self$message_template_verbose)), sep = "\n")
+      cat(
+        paste0(
+          "  message_template: ",
+          gsub("\n", "\\\\n", self$message_template)
+        ),
+        sep = "\n"
+      )
+      cat(
+        paste0(
+          "  message_template_verbose: ",
+          gsub("\n", "\\\\n", self$message_template_verbose)
+        ),
+        sep = "\n"
+      )
       invisible()
     },
 
     do = function(response, mssg = "", template = self$message_template) {
       call <- if (self$call.) sys.call(-1) else NULL
       stat <- private$fetch_status(response)
-      if (self$muffle) if (stat < 300) return(invisible(response))
+      if (self$muffle) {
+        if (stat < 300) return(invisible(response))
+      }
       eval(parse(text = self$behavior))(
-        private$make_condition(response, private$behavior_type, call, mssg, template)
+        private$make_condition(
+          response,
+          private$behavior_type,
+          call,
+          mssg,
+          template
+        )
       )
     },
 
     set_behavior = function(behavior) {
       stopifnot(inherits(behavior, "character"))
       if (!behavior %in% c('stop', 'warning', 'message')) {
-        stop("'behavior' must be one of stop, warning, or message", 
-          call. = FALSE)
+        stop(
+          "'behavior' must be one of stop, warning, or message",
+          call. = FALSE
+        )
       }
       self$behavior <- behavior
       # and set behavior_type
       private$behavior_type <- switch(
-        self$behavior, stop = "error", warning = "warning", message = "message")
+        self$behavior,
+        stop = "error",
+        warning = "warning",
+        message = "message"
+      )
     }
   ),
 
@@ -139,10 +170,11 @@ Error <- R6::R6Class(
       xx <- list(reason = reason, status = status, message = mssg)
       message <- whisker::whisker.render(template, xx)
       status_type <- (status %/% 100) * 100
-      http_class <- paste0("http_", unique(c(status, status_type,
-                                             "error")))
-      structure(list(message = message, call = call),
-                class = c(http_class, type, "condition"))
+      http_class <- paste0("http_", unique(c(status, status_type, "error")))
+      structure(
+        list(message = message, call = call),
+        class = c(http_class, type, "condition")
+      )
     },
 
     fetch_status = function(x) {
@@ -155,7 +187,6 @@ Error <- R6::R6Class(
         list = x$status_code # curl
       )
     }
-
   )
 )
 
